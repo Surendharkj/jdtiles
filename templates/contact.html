@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Contact · JD Tiles &amp; Builders{% endblock %}
+
+{% block content %}
+  <section class="section contact-section">
+    <div class="contact-inner">
+      <div>
+        <h1>Contact JD Tiles &amp; Builders</h1>
+        <p>
+          Share your requirements for tiles or properties, and our team will
+          get back to you with tailored options.
+        </p>
+      </div>
+      <form method="post" class="contact-form">
+        <div class="field-row">
+          <div class="field">
+            <label for="name">Name</label>
+            <input id="name" name="name" required />
+          </div>
+          <div class="field">
+            <label for="phone">Phone</label>
+            <input id="phone" name="phone" required />
+          </div>
+        </div>
+        <div class="field">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" rows="4" required></textarea>
+        </div>
+        <button class="btn primary" type="submit">Send enquiry</button>
+      </form>
+      <div class="whatsapp-contacts">
+        <h3>Contact us directly on WhatsApp:</h3>
+        <ul>
+          <li><a href="https://wa.me/919363092538" target="_blank">WhatsApp: +91 9363092538</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+

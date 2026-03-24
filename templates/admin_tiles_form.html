@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% if tile %}
+  {% set page_title = "Edit Tile" %}
+{% else %}
+  {% set page_title = "Add Tile" %}
+{% endif %}
+
+{% block title %}{{ page_title }} · JD Tiles &amp; Builders{% endblock %}
+
+{% block content %}
+  <header class="page-header">
+    <h1>{{ page_title }}</h1>
+  </header>
+
+  <form
+    method="post"
+    enctype="multipart/form-data"
+    class="admin-form"
+  >
+    <div class="field-row">
+      <div class="field">
+        <label for="name">Name</label>
+        <input id="name" name="name" required value="{{ tile.name if tile else '' }}" />
+      </div>
+      <div class="field">
+        <label for="category">Category</label>
+        <input id="category" name="category" value="{{ tile.category if tile else '' }}" />
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label for="size">Size</label>
+        <input id="size" name="size" value="{{ tile.size if tile else '' }}" />
+      </div>
+      <div class="field">
+        <label for="finish">Finish</label>
+        <input id="finish" name="finish" value="{{ tile.finish if tile else '' }}" />
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label for="price_per_box">Price per box</label>
+        <input
+          id="price_per_box"
+          name="price_per_box"
+          type="number"
+          step="0.01"
+          value="{{ tile.price_per_box if tile else '' }}"
+        />
+      </div>
+      <div class="field">
+        <label for="stock">Stock (boxes)</label>
+        <input
+          id="stock"
+          name="stock"
+          type="number"
+          value="{{ tile.stock if tile else '' }}"
+        />
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="description">Description</label>
+      <textarea id="description" name="description" rows="4">{{ tile.description if tile else '' }}</textarea>
+    </div>
+
+    <div class="field">
+      <label for="images">Upload images</label>
+      <input id="images" name="images" type="file" multiple />
+      {% if tile and tile.images %}
+        <p class="hint">Existing images:</p>
+        <div class="small-gallery">
+          {% for img in tile.images %}
+            <img src="{{ img }}" alt="Tile image" />
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="field">
+      <label for="videos">Upload videos (mp4/webm)</label>
+      <input id="videos" name="videos" type="file" multiple accept="video/mp4,video/webm" />
+      {% if tile and tile.videos %}
+        <p class="hint">Existing videos:</p>
+        <div class="small-gallery">
+          {% for v in tile.videos %}
+            <video src="{{ v }}" muted playsinline></video>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+
+    <button class="btn primary" type="submit">Save</button>
+    <a href="{{ url_for('admin_tiles_list') }}" class="btn ghost">Cancel</a>
+  </form>
+{% endblock %}
+

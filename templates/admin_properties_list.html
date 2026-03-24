@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Properties · JD Tiles &amp; Builders{% endblock %}
+
+{% block content %}
+  <header class="page-header">
+    <h1>Properties</h1>
+    <p>Manage property listings.</p>
+  </header>
+
+  <p class="page-actions">
+    <a href="{{ url_for('admin_properties_new') }}" class="btn primary">Add property</a>
+  </p>
+
+  <div class="table">
+    <div class="table-head">
+      <span>Title</span>
+      <span>Location</span>
+      <span>Type</span>
+      <span>Price</span>
+      <span></span>
+    </div>
+    {% for prop in properties %}
+      <div class="table-row">
+        <span>{{ prop.title }}</span>
+        <span>{{ prop.location }}</span>
+        <span>{{ prop.property_type|capitalize }}</span>
+        <span>₹{{ '{:,.0f}'.format(prop.price|default(0, true)) }}</span>
+        <span class="table-actions">
+          <a href="{{ url_for('admin_properties_edit', prop_id=str(prop._id)) }}">Edit</a>
+          <form
+            method="post"
+            action="{{ url_for('admin_properties_delete', prop_id=str(prop._id)) }}"
+            onsubmit="return confirm('Delete this property?');"
+          >
+            <button type="submit" class="link-button">Delete</button>
+          </form>
+        </span>
+      </div>
+    {% else %}
+      <p class="empty-text">No properties yet.</p>
+    {% endfor %}
+  </div>
+{% endblock %}
+

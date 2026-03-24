@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% if prop %}
+  {% set page_title = "Edit Property" %}
+{% else %}
+  {% set page_title = "Add Property" %}
+{% endif %}
+
+{% block title %}{{ page_title }} · JD Tiles &amp; Builders{% endblock %}
+
+{% block content %}
+  <header class="page-header">
+    <h1>{{ page_title }}</h1>
+  </header>
+
+  <form
+    method="post"
+    enctype="multipart/form-data"
+    class="admin-form"
+  >
+    <div class="field-row">
+      <div class="field">
+        <label for="title">Title</label>
+        <input id="title" name="title" required value="{{ prop.title if prop else '' }}" />
+      </div>
+      <div class="field">
+        <label for="location">Location</label>
+        <input id="location" name="location" required value="{{ prop.location if prop else '' }}" />
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label for="property_type">Property type</label>
+        <select id="property_type" name="property_type">
+          {% set selected_type = (prop.property_type if prop else 'house') %}
+          <option value="house" {% if selected_type == 'house' %}selected{% endif %}>House</option>
+          <option value="land" {% if selected_type == 'land' %}selected{% endif %}>Land</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="square_feet">Square feet</label>
+        <input
+          id="square_feet"
+          name="square_feet"
+          type="number"
+          value="{{ prop.square_feet if prop else '' }}"
+        />
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="price">Price</label>
+      <input
+        id="price"
+        name="price"
+        type="number"
+        step="0.01"
+        value="{{ prop.price if prop else '' }}"
+      />
+    </div>
+
+    <div class="field">
+      <label for="description">Description</label>
+      <textarea id="description" name="description" rows="4">{{ prop.description if prop else '' }}</textarea>
+    </div>
+
+    <div class="field">
+      <label for="images">Upload images</label>
+      <input id="images" name="images" type="file" multiple />
+      {% if prop and prop.images %}
+        <p class="hint">Existing images:</p>
+        <div class="small-gallery">
+          {% for img in prop.images %}
+            <img src="{{ img }}" alt="Property image" />
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="field">
+      <label for="videos">Upload videos (mp4/webm)</label>
+      <input id="videos" name="videos" type="file" multiple accept="video/mp4,video/webm" />
+      {% if prop and prop.videos %}
+        <p class="hint">Existing videos:</p>
+        <div class="small-gallery">
+          {% for v in prop.videos %}
+            <video src="{{ v }}" muted playsinline></video>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+
+    <button class="btn primary" type="submit">Save</button>
+    <a href="{{ url_for('admin_properties_list') }}" class="btn ghost">Cancel</a>
+  </form>
+{% endblock %}
+

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Properties · JD Tiles &amp; Builders{% endblock %}
+
+{% block content %}
+  <header class="page-header">
+    <h1>JD Builders Listings</h1>
+    <p>Curated houses and land for modern living.</p>
+  </header>
+
+  <div class="grid-grid">
+    {% for prop in properties %}
+      <article class="card property-card">
+        <a href="{{ url_for('property_detail', prop_id=str(prop._id)) }}">
+          <div class="card-media">
+            <div
+              class="image"
+              style="background-image: url('{{ (prop.images[0] if prop.images else url_for('static', filename='images/placeholder-property.jpg')) }}');"
+            ></div>
+          </div>
+          <div class="card-body">
+            <h3>{{ prop.title }}</h3>
+            <p class="meta">{{ prop.location }} · {{ prop.property_type|capitalize }}</p>
+            <p class="price">₹{{ '{:,.0f}'.format(prop.price|default(0, true)) }}</p>
+            <p class="meta">
+              {{ prop.square_feet|default(0, true) }} sq.ft
+            </p>
+          </div>
+        </a>
+      </article>
+    {% else %}
+      <p class="empty-text">No properties listed yet.</p>
+    {% endfor %}
+  </div>
+{% endblock %}
+

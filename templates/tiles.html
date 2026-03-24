@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Tiles Catalog · JD Tiles &amp; Builders{% endblock %}
+
+{% block content %}
+  <header class="page-header">
+    <h1>JD Tiles Catalog</h1>
+    <p>Explore tiles engineered for performance and style.</p>
+  </header>
+
+  <div class="grid-grid">
+    {% for tile in tiles %}
+      <article class="card tile-card">
+        <a href="{{ url_for('tile_detail', tile_id=str(tile._id)) }}">
+          <div class="card-media">
+            <div
+              class="image"
+              style="background-image: url('{{ (tile.images[0] if tile.images else url_for('static', filename='images/placeholder-tile.jpg')) }}');"
+            ></div>
+          </div>
+          <div class="card-body">
+            <h3>{{ tile.name }}</h3>
+            <p class="meta">
+              {{ tile.size }}{% if tile.finish %} · {{ tile.finish }}{% endif %}
+            </p>
+            {% if tile.category %}
+              <p class="meta">{{ tile.category }}</p>
+            {% endif %}
+            <p class="price">₹{{ '%.2f'|format(tile.price_per_box|default(0, true)) }} / box</p>
+            {% if tile.description %}
+              <p class="product-description">{{ tile.description }}</p>
+            {% endif %}
+          </div>
+        </a>
+      </article>
+    {% else %}
+      <p class="empty-text">No tiles available yet.</p>
+    {% endfor %}
+  </div>
+{% endblock %}
+

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard · JD Tiles &amp; Builders{% endblock %}
+
+{% block content %}
+  <header class="page-header">
+    <h1>Admin Dashboard</h1>
+    <p>Manage tiles, properties, and enquiries.</p>
+  </header>
+
+  <section class="admin-summary">
+    <div class="summary-card">
+      <h2>Tiles</h2>
+      <p class="summary-number">{{ tiles_count }}</p>
+      <a href="{{ url_for('admin_tiles_list') }}" class="text-link">Manage tiles →</a>
+    </div>
+    <div class="summary-card">
+      <h2>Properties</h2>
+      <p class="summary-number">{{ props_count }}</p>
+      <a href="{{ url_for('admin_properties_list') }}" class="text-link">Manage properties →</a>
+    </div>
+    <div class="summary-card">
+      <h2>Enquiries</h2>
+      <p class="summary-number">{{ enquiries_count }}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <header class="section-header">
+      <h2>Recent enquiries</h2>
+    </header>
+    <div class="table">
+      <div class="table-head">
+        <span>Name</span>
+        <span>Phone</span>
+        <span>Message</span>
+      </div>
+      {% for e in latest_enquiries %}
+        <div class="table-row">
+          <span>{{ e.name }}</span>
+          <span>{{ e.phone }}</span>
+          <span>{{ e.message }}</span>
+        </div>
+      {% else %}
+        <p class="empty-text">No enquiries yet.</p>
+      {% endfor %}
+    </div>
+
+    <p class="logout-link">
+      <a href="{{ url_for('admin_logout') }}">Log out</a>
+    </p>
+  </section>
+{% endblock %}
+

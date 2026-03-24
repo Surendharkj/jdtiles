@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}{{ prop.title }} · JD Builders{% endblock %}
+
+{% block content %}
+  {% set wa_property_message -%}
+Perfect 👍
+
+We also offer help for you to find the right property at the best value
+
+Please share:
+
+Requirement: House / Land
+Preferred Location -
+Budget -
+Size (sq.ft / grounds) -
+
+Interested in: {{ prop.title }}
+
+We'll send you verified & suitable property options
+  {%- endset %}
+  <a href="{{ url_for('properties_listing') }}" class="back-link">← Back to listings</a>
+
+  <section class="detail-layout">
+    <div class="detail-gallery">
+      <div class="detail-main-image">
+        <img
+          class="detail-main-media"
+          data-kind="image"
+          src="{{ (prop.images[0] if prop.images else url_for('static', filename='images/placeholder-property.jpg')) }}"
+          alt="{{ prop.title }}"
+        />
+        <video class="detail-main-media is-hidden" data-kind="video" controls playsinline></video>
+      </div>
+      {% if (prop.images and prop.images|length > 1) or (prop.videos and prop.videos|length > 0) %}
+        <div class="detail-thumbs">
+          {% for img in prop.images %}
+            <button
+              type="button"
+              class="thumb"
+              data-main-src="{{ img }}"
+              data-main-kind="image"
+            >
+              <img src="{{ img }}" alt="Thumbnail for {{ prop.title }}" />
+            </button>
+          {% endfor %}
+          {% for v in prop.videos %}
+            <button
+              type="button"
+              class="thumb thumb-video"
+              data-main-src="{{ v }}"
+              data-main-kind="video"
+              aria-label="Play video"
+            >
+              <span class="play-badge">Play</span>
+            </button>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="detail-info">
+      <p class="eyebrow">JD Builders</p>
+      <h1>{{ prop.title }}</h1>
+      <p class="price-large">₹{{ '{:,.0f}'.format(prop.price|default(0, true)) }}</p>
+
+      <dl class="spec-list">
+        <div>
+          <dt>Location</dt>
+          <dd>{{ prop.location }}</dd>
+        </div>
+        <div>
+          <dt>Property type</dt>
+          <dd>{{ prop.property_type|capitalize }}</dd>
+        </div>
+        <div>
+          <dt>Area</dt>
+          <dd>{{ prop.square_feet|default(0, true) }} sq.ft</dd>
+        </div>
+      </dl>
+
+      {% if prop.description %}
+        <p class="detail-description">{{ prop.description }}</p>
+      {% endif %}
+
+      <a
+        href="https://wa.me/919363092538?text={{ wa_property_message|urlencode }}"
+        class="btn primary"
+        target="_blank"
+        rel="noopener"
+      >
+        Enquire on WhatsApp
+      </a>
+    </div>
+  </section>
+{% endblock %}
+

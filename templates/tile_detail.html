@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block title %}{{ tile.name }} · JD Tiles{% endblock %}
+
+{% block content %}
+  {% set wa_tiles_message -%}
+Great choice 👍
+
+We'll help you with perfect tiles selection + quantity + pricing
+
+Please share:
+
+Area (in sq.ft):
+- Floor Area -
+- Wall Tiles (Kitchen/Bathroom) -
+- Exterior Area -
+
+Site Location -
+Project Type - New / Renovation
+
+Interested in: {{ tile.name }}
+
+We'll suggest best designs + exact estimate + cost-effective options
+  {%- endset %}
+  <a href="{{ url_for('tiles_catalog') }}" class="back-link">← Back to tiles</a>
+
+  <section class="detail-layout">
+    <div class="detail-gallery">
+      <div class="detail-main-image">
+        <img
+          class="detail-main-media"
+          data-kind="image"
+          src="{{ (tile.images[0] if tile.images else url_for('static', filename='images/placeholder-tile.jpg')) }}"
+          alt="{{ tile.name }}"
+        />
+        <video class="detail-main-media is-hidden" data-kind="video" controls playsinline></video>
+      </div>
+      {% if (tile.images and tile.images|length > 1) or (tile.videos and tile.videos|length > 0) %}
+        <div class="detail-thumbs">
+          {% for img in tile.images %}
+            <button
+              type="button"
+              class="thumb"
+              data-main-src="{{ img }}"
+              data-main-kind="image"
+            >
+              <img src="{{ img }}" alt="Thumbnail for {{ tile.name }}" />
+            </button>
+          {% endfor %}
+          {% for v in tile.videos %}
+            <button
+              type="button"
+              class="thumb thumb-video"
+              data-main-src="{{ v }}"
+              data-main-kind="video"
+              aria-label="Play video"
+            >
+              <span class="play-badge">Play</span>
+            </button>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="detail-info">
+      <p class="eyebrow">JD Tiles</p>
+      <h1>{{ tile.name }}</h1>
+      <p class="price-large">₹{{ '%.2f'|format(tile.price_per_box|default(0, true)) }} / box</p>
+
+      <dl class="spec-list">
+        {% if tile.size %}
+          <div>
+            <dt>Size</dt>
+            <dd>{{ tile.size }}</dd>
+          </div>
+        {% endif %}
+        {% if tile.finish %}
+          <div>
+            <dt>Finish</dt>
+            <dd>{{ tile.finish }}</dd>
+          </div>
+        {% endif %}
+        {% if tile.category %}
+          <div>
+            <dt>Category</dt>
+            <dd>{{ tile.category }}</dd>
+          </div>
+        {% endif %}
+        <div>
+          <dt>Stock</dt>
+          <dd>{{ tile.stock|default(0, true) }} boxes</dd>
+        </div>
+      </dl>
+
+      {% if tile.description %}
+        <p class="detail-description">{{ tile.description }}</p>
+      {% endif %}
+
+      <a
+        href="https://wa.me/919363092538?text={{ wa_tiles_message|urlencode }}"
+        class="btn primary"
+        target="_blank"
+        rel="noopener"
+      >
+        Enquire on WhatsApp
+      </a>
+    </div>
+  </section>
+{% endblock %}
+

@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>{% block title %}JD Tiles &amp; Builders{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
+  </head>
+  <body>
+    <header class="navbar">
+      <div class="navbar-inner">
+        <a href="{{ url_for('homepage') }}" class="logo" aria-label="JD Tiles & Builders">
+          <img
+            src="{{ url_for('static', filename='images/Black White Minimalist Initials Monogram Jewelry Logo.png') }}"
+            alt="JD Tiles & Builders"
+            class="logo-image"
+            onerror="this.style.display='none'; var el=document.getElementById('logo-fallback'); if(el){el.style.display='inline-flex';}"
+          />
+          <span id="logo-fallback" class="logo-fallback" style="display: none;">JD</span>
+          <span class="logo-text">Tiles &amp; Builders</span>
+        </a>
+        <nav class="nav-links">
+          <a href="{{ url_for('tiles_catalog') }}" class="nav-link">JD Tiles</a>
+          <a href="{{ url_for('properties_listing') }}" class="nav-link">JD Builders</a>
+          <a href="{{ url_for('contact') }}" class="nav-link">Contact</a>
+          <a href="{{ url_for('admin_dashboard') }}" class="nav-link admin-link">Admin</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="main-content">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="flash-container">
+            {% for category, message in messages %}
+              <div class="flash flash-{{ category }}">{{ message }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        <div>
+          <h4>JD Tiles &amp; Builders</h4>
+          <p>Premium tiles and curated properties for modern living.</p>
+          <div class="footer-contacts">
+            <h5>WhatsApp:</h5>
+            <ul>
+              <li><a href="https://wa.me/919363092538" target="_blank" rel="noopener">+91 9363092538</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-meta">
+          <span>&copy; 2022-2026 JD Tiles &amp; Builders</span>
+          <span>Crafted for performance and style.</span>
+        </div>
+      </div>
+    </footer>
+
+    {% set wa_tiles_message -%}
+Great choice 👍
+
+We'll help you with perfect tiles selection + quantity + pricing
+
+Please share:
+
+Area (in sq.ft):
+- Floor Area -
+- Wall Tiles (Kitchen/Bathroom) -
+- Exterior Area -
+
+Site Location -
+Project Type - New / Renovation
+
+We'll suggest best designs + exact estimate + cost-effective options
+    {%- endset %}
+    <a
+      href="https://wa.me/919363092538?text={{ wa_tiles_message|urlencode }}"
+      class="whatsapp-button"
+      target="_blank"
+      rel="noopener"
+    >
+      WhatsApp Enquiry
+    </a>
+
+    <div class="call-fab" aria-label="Call JD Tiles & Builders">
+      <a class="call-button" href="tel:+919363092538">Call</a>
+      <div class="call-menu" aria-label="Choose a number to call">
+        <a href="tel:+919363092538">+91 9363092538</a>
+        <a href="tel:+919677275806">+91 9677275806</a>
+      </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  </body>
+</html>
+

@@ -1,0 +1,278 @@
+{% extends "base.html" %}
+
+{% block title %}Home · JD Tiles &amp; Builders{% endblock %}
+
+{% block content %}
+  {% set wa_tiles_message -%}
+Great choice 👍
+
+We'll help you with perfect tiles selection + quantity + pricing
+
+Please share:
+
+Area (in sq.ft):
+- Floor Area -
+- Wall Tiles (Kitchen/Bathroom) -
+- Exterior Area -
+
+Site Location -
+Project Type - New / Renovation
+
+We'll suggest best designs + exact estimate + cost-effective options
+  {%- endset %}
+  {% set wa_property_message -%}
+Perfect 👍
+
+We also offer help for you to find the right property at the best value
+
+Please share:
+
+Requirement: House / Land
+Preferred Location -
+Budget -
+Size (sq.ft / grounds) -
+
+We'll send you verified & suitable property options
+  {%- endset %}
+  {% set wa_laying_message -%}
+Great choice 👍
+
+I need tile laying labour service.
+
+Please share:
+- Floor Area (sq.ft)
+- Site Location
+- Project Type (New / Renovation)
+
+Please share rate, availability, and total quote.
+  {%- endset %}
+  <section class="hero">
+    <div class="hero-content">
+      <p class="eyebrow">JD Tiles &amp; Builders</p>
+      <h1>
+        Built to perform.
+        <span class="accent">Designed to impress.</span>
+      </h1>
+      <p class="hero-subtitle">
+        Budget to premium tiles, sanitaryware, and fast support for quotes, WhatsApp, and calls.
+      </p>
+      <div class="hero-actions">
+        <a href="{{ url_for('tiles_catalog') }}" class="btn primary">Explore Tiles</a>
+        <a href="{{ url_for('contact') }}" class="btn ghost">Get Quote</a>
+      </div>
+    </div>
+    <div class="hero-visual" aria-hidden="true">
+      {% set tile_images = [] %}
+      {% for t in tiles %}
+        {% if t.images and t.images|length > 0 %}
+          {% set _ = tile_images.append(t.images[0]) %}
+        {% endif %}
+      {% endfor %}
+      {% set prop_images = [] %}
+      {% for p in properties %}
+        {% if p.images and p.images|length > 0 %}
+          {% set _ = prop_images.append(p.images[0]) %}
+        {% endif %}
+      {% endfor %}
+
+      <div
+        class="hero-card hero-tile-card"
+        data-slideshow="tiles"
+        data-images="{{ tile_images|tojson }}"
+      >
+        <div class="hero-card-watermark">
+          <img
+            src="{{ url_for('static', filename='images/Black White Minimalist Initials Monogram Jewelry Logo.png') }}"
+            alt=""
+          />
+        </div>
+        <div class="hero-card-copy">
+          <p class="hero-card-label">JD Tiles</p>
+          <p class="hero-card-line">Budget & premium tiles · Laying included</p>
+        </div>
+      </div>
+
+      <div
+        class="hero-card hero-property-card"
+        data-slideshow="properties"
+        data-images="{{ prop_images|tojson }}"
+      >
+        <div class="hero-card-watermark">
+          <img
+            src="{{ url_for('static', filename='images/Black White Minimalist Initials Monogram Jewelry Logo.png') }}"
+            alt=""
+          />
+        </div>
+        <div class="hero-card-copy">
+          <p class="hero-card-label">JD Builders</p>
+          <p class="hero-card-line">Houses & land · Prime locations</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="promo-banner full-bleed" aria-label="Promotion banner">
+    <div class="promo-banner-inner">
+      <div>
+        <h2>Factory Purchase Deals · Best Price</h2>
+        <p>All types of tiles + sanitaryware · Budget to premium · Fast delivery</p>
+      </div>
+      <div class="promo-actions" aria-label="Promotion actions">
+        <a href="{{ url_for('tiles_catalog') }}" class="btn-sm light">Browse Tiles</a>
+        <a
+          href="https://wa.me/919363092538?text={{ wa_tiles_message|urlencode }}"
+          class="btn-sm wa"
+          target="_blank"
+          rel="noopener"
+        >WhatsApp</a>
+        <a href="tel:+919363092538" class="btn-sm call">Call 9363</a>
+        <a href="tel:+919677275806" class="btn-sm call">Call 9677</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="split-section">
+    <article class="split-card tiles">
+      <h2>JD Tiles</h2>
+      <p>
+        Floor and wall tiles engineered for daily performance, from minimal concrete finishes to rich marble designs.
+      </p>
+      <p class="subnote">
+        We also provide tile laying services as a complete package, with experienced teams and clean finishing.
+      </p>
+      <div class="box-actions">
+        <a href="{{ url_for('tiles_catalog') }}" class="btn-sm light">Browse tiles</a>
+        <a
+          href="https://wa.me/919363092538?text={{ wa_tiles_message|urlencode }}"
+          class="btn-sm wa"
+          target="_blank"
+          rel="noopener"
+        >WhatsApp</a>
+        <a href="tel:+919363092538" class="btn-sm call">Call 9363</a>
+        <a href="tel:+919677275806" class="btn-sm call">Call 9677</a>
+      </div>
+      <a href="{{ url_for('tiles_catalog') }}" class="text-link">Browse tile catalog →</a>
+    </article>
+
+    <article class="split-card builders">
+      <h2>JD Builders</h2>
+      <p>
+        Houses and land listings in prime locations, designed with the same detail and precision as our tiles.
+      </p>
+      <div class="box-actions">
+        <a href="{{ url_for('properties_listing') }}" class="btn-sm light">View listings</a>
+        <a
+          href="https://wa.me/919363092538?text={{ wa_property_message|urlencode }}"
+          class="btn-sm wa"
+          target="_blank"
+          rel="noopener"
+        >WhatsApp</a>
+        <a href="tel:+919363092538" class="btn-sm call">Call 9363</a>
+        <a href="tel:+919677275806" class="btn-sm call">Call 9677</a>
+      </div>
+      <a href="{{ url_for('properties_listing') }}" class="text-link">View listings →</a>
+    </article>
+
+    <article class="split-card service">
+      <h2>Tile Laying Labour</h2>
+      <p class="service-price">₹25 per sq.ft · Expert finishing</p>
+      <p>
+        End-to-end service from assisting in tile purchase to installation.
+      </p>
+      <p class="subnote">
+        JD Tiles – Trusted quality &amp; complete solutions.
+      </p>
+      <div class="box-actions">
+        <a
+          href="https://wa.me/919363092538?text={{ wa_laying_message|urlencode }}"
+          class="btn-sm wa"
+          target="_blank"
+          rel="noopener"
+        >WhatsApp</a>
+        <a href="tel:+919363092538" class="btn-sm call">Call 9363</a>
+        <a href="tel:+919677275806" class="btn-sm call">Call 9677</a>
+      </div>
+      <a href="{{ url_for('contact') }}" class="text-link">Get a quick quote →</a>
+    </article>
+  </section>
+
+  <section class="section video-section" aria-label="Showcase video">
+    <div class="video-wrap">
+      <video
+        class="showreel"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        poster="{{ url_for('static', filename='images/video-poster.jpg') }}"
+      >
+        <source src="{{ url_for('static', filename='videos/showreel.mp4') }}" type="video/mp4" />
+      </video>
+      <div class="video-overlay">
+        <h2>Minimal. Modern. Made to last.</h2>
+        <p>Browse tiles and listings while our silent showreel plays in the background.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <header class="section-header">
+      <h2>Featured Tiles</h2>
+    </header>
+    <div class="grid-grid">
+      {% for tile in tiles %}
+        <article class="card tile-card">
+          <a href="{{ url_for('tile_detail', tile_id=str(tile._id)) }}">
+            <div class="card-media">
+              <div
+                class="image"
+                style="background-image: url('{{ (tile.images[0] if tile.images else url_for('static', filename='images/placeholder-tile.jpg')) }}');"
+              ></div>
+            </div>
+            <div class="card-body">
+              <h3>{{ tile.name }}</h3>
+              <p class="meta">
+                {{ tile.size }}{% if tile.finish %} · {{ tile.finish }}{% endif %}
+              </p>
+              <p class="price">₹{{ '%.2f'|format(tile.price_per_box|default(0, true)) }} / box</p>
+              {% if tile.description %}
+                <p class="product-description">{{ tile.description }}</p>
+              {% endif %}
+            </div>
+          </a>
+        </article>
+      {% else %}
+        <p class="empty-text">No tiles added yet.</p>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section class="section">
+    <header class="section-header">
+      <h2>Featured Properties</h2>
+    </header>
+    <div class="grid-grid">
+      {% for prop in properties %}
+        <article class="card property-card">
+          <a href="{{ url_for('property_detail', prop_id=str(prop._id)) }}">
+            <div class="card-media">
+              <div
+                class="image"
+                style="background-image: url('{{ (prop.images[0] if prop.images else url_for('static', filename='images/placeholder-property.jpg')) }}');"
+              ></div>
+            </div>
+            <div class="card-body">
+              <h3>{{ prop.title }}</h3>
+              <p class="meta">{{ prop.location }} · {{ prop.property_type|capitalize }}</p>
+              <p class="price">₹{{ '{:,.0f}'.format(prop.price|default(0, true)) }}</p>
+            </div>
+          </a>
+        </article>
+      {% else %}
+        <p class="empty-text">No properties added yet.</p>
+      {% endfor %}
+    </div>
+  </section>
+{% endblock %}
+
